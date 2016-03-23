@@ -1,1 +1,6 @@
 
+module CUV [system] {
+    header "../uv.h"
+    link "uv"
+    export *
+}
