@@ -102,7 +102,6 @@
 # define UV__POLLOUT    POLLOUT
 # define UV__POLLERR    POLLERR
 # define UV__POLLHUP    POLLHUP
-# define UV__POLLRDHUP  POLLRDHUP
 #endif
 
 #ifndef UV__POLLIN
@@ -122,7 +121,11 @@
 #endif
 
 #ifndef UV__POLLRDHUP
-# define UV__POLLRDHUP  0x200
+# ifdef POLLRDHUP
+#  define UV__POLLRDHUP POLLRDHUP
+# else
+#  define UV__POLLRDHUP 0x200
+# endif
 #endif
 
 #if !defined(O_CLOEXEC) && defined(__FreeBSD__)
@@ -174,6 +177,7 @@ struct uv__stream_queued_fds_s {
 /* core */
 int uv__nonblock(int fd, int set);
 int uv__close(int fd);
+int uv__close_nocheckstdio(int fd);
 int uv__cloexec(int fd, int set);
 int uv__socket(int domain, int type, int protocol);
 int uv__dup(int fd);
@@ -254,6 +258,7 @@ void uv__udp_close(uv_udp_t* handle);
 void uv__udp_finish_close(uv_udp_t* handle);
 uv_handle_type uv__handle_type(int fd);
 FILE* uv__open_file(const char* path);
+int uv__getpwuid_r(uv_passwd_t* pwd);
 
 
 #if defined(__APPLE__)
