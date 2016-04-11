@@ -22,7 +22,7 @@
 #include "uv-common.h"
 
 #if !defined(_WIN32)
-# include "unix/internal.h"
+# include "internal.h"
 #else
 # include "win/req-inl.h"
 /* TODO(saghul): unify internal req functions */
